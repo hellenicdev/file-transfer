@@ -23,36 +23,44 @@ async function apiRequest(endpoint, body) {
   return data;
 }
 
-function setupTurnstile(elementId, callback) {
+let createToken = null;
+let joinToken = null;
+let turnstileReady = false;
+
+function renderWidgets() {
+  if (typeof turnstile === 'undefined' || !turnstileReady) {
+    setTimeout(renderWidgets, 200);
+    return;
+  }
+  turnstile.render('#createTurnstile', {
+    sitekey: TURNSTILE_SITE_KEY,
+    callback: (token) => { createToken = token; },
+    'expired-callback': () => { createToken = null; },
+  });
+  turnstile.render('#joinTurnstile', {
+    sitekey: TURNSTILE_SITE_KEY,
+    callback: (token) => { joinToken = token; },
+    'expired-callback': () => { joinToken = null; },
+  });
+}
+
+function loadTurnstile() {
   if (typeof turnstile !== 'undefined') {
-    turnstile.render(elementId, {
-      sitekey: TURNSTILE_SITE_KEY,
-      callback: callback,
-      'expired-callback': callback,
+    turnstile.ready(() => {
+      turnstileReady = true;
+      renderWidgets();
     });
+  } else {
+    setTimeout(loadTurnstile, 200);
   }
 }
 
-let createToken = null;
-let joinToken = null;
-
-function onCreateToken(token) {
-  createToken = token;
-  document.getElementById('createRoomBtn').disabled = !token;
-}
-
-function onJoinToken(token) {
-  joinToken = token;
-  document.getElementById('joinRoomBtn').disabled = !token;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  setupTurnstile('createTurnstile', onCreateToken);
-  setupTurnstile('joinTurnstile', onJoinToken);
+  loadTurnstile();
 
   document.getElementById('createRoomBtn').addEventListener('click', async () => {
     if (!createToken) {
-      showToast('Please complete the CAPTCHA', 'error');
+      showToast('Please complete the CAPTCHA first', 'error');
       return;
     }
     const btn = document.getElementById('createRoomBtn');
@@ -75,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     if (!joinToken) {
-      showToast('Please complete the CAPTCHA', 'error');
+      showToast('Please complete the CAPTCHA first', 'error');
       return;
     }
 
