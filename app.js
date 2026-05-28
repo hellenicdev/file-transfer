@@ -25,13 +25,8 @@ async function apiRequest(endpoint, body) {
 
 let createToken = null;
 let joinToken = null;
-let turnstileReady = false;
 
 function renderWidgets() {
-  if (typeof turnstile === 'undefined' || !turnstileReady) {
-    setTimeout(renderWidgets, 200);
-    return;
-  }
   turnstile.render('#createTurnstile', {
     sitekey: TURNSTILE_SITE_KEY,
     callback: (token) => { createToken = token; },
@@ -44,19 +39,8 @@ function renderWidgets() {
   });
 }
 
-function loadTurnstile() {
-  if (typeof turnstile !== 'undefined') {
-    turnstile.ready(() => {
-      turnstileReady = true;
-      renderWidgets();
-    });
-  } else {
-    setTimeout(loadTurnstile, 200);
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  loadTurnstile();
+  renderWidgets();
 
   document.getElementById('createRoomBtn').addEventListener('click', async () => {
     if (!createToken) {
