@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room - File Transfer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <main class="container">
+    <div class="room-header">
+      <div class="room-header-content">
+        <div class="room-code-section">
+          <span class="room-code-label">Room Code</span>
+          <span class="room-code-value" id="roomCodeDisplay">---</span>
+          <button class="btn btn-secondary" id="copyRoomBtn">Copy</button>
+        </div>
+        <div class="room-meta" id="roomMeta">
+          <span class="dot online" id="statusDot"></span>
+          <span id="usersCount">0</span> connected
+          <a href="index.html" class="btn btn-secondary" id="leaveBtn">Leave</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <span class="dropzone-icon">&#128228;</span>
+      <p class="dropzone-text">
+        <strong>Click to upload</strong> or drag and drop
+      </p>
+      <p class="dropzone-hint">Any file type accepted</p>
+      <input type="file" id="fileInput" multiple hidden />
+    </div>
+
+    <div class="progress-container" id="progressContainer"></div>
+
+    <section class="files-section">
+      <div class="files-header">
+        <h3>Files</h3>
+        <span class="files-count" id="filesCount">0 files</span>
+      </div>
+      <div id="fileListContainer">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">&#128196;</div>
+          <p class="empty-state-text">No files yet. Upload something!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="room.js"></script>
+</body>
+</html>

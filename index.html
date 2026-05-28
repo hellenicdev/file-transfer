@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Transfer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <header class="header">
+    <h1 class="header-title">File Transfer</h1>
+    <p class="header-subtitle">Temporary file sharing rooms. Upload, share, download.</p>
+  </header>
+
+  <main class="container">
+    <div class="landing-grid">
+      <div class="landing-card glass-card">
+        <h2>Create a Room</h2>
+        <p>Generate a room code and share it with someone</p>
+        <div id="createTurnstile"></div>
+        <button class="btn btn-primary" id="createRoomBtn" disabled>
+          Create Room
+        </button>
+      </div>
+
+      <div class="landing-card glass-card">
+        <h2>Join a Room</h2>
+        <p>Enter the room code to connect</p>
+        <form id="joinForm">
+          <input
+            type="text"
+            class="input-field"
+            id="roomCodeInput"
+            placeholder="ABC123"
+            maxlength="6"
+            autocomplete="off"
+          />
+          <div id="joinTurnstile"></div>
+          <button class="btn btn-primary" id="joinRoomBtn" disabled>
+            Join Room
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
