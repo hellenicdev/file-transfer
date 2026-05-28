@@ -3,10 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="File Transfer - Share files in a temporary room." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta property="og:title" content="File Transfer - Room" />
+  <meta property="og:description" content="Upload and download files in realtime with others." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
   <title>Room - File Transfer</title>
   <link rel="stylesheet" href="style.css" />
   <script src="config.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FWQFZME3Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9FWQFZME3Z');
+  </script>
 </head>
 <body>
   <div class="toast-container" id="toastContainer"></div>

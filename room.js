@@ -38,7 +38,6 @@ function showToast(message, type) {
 
 function renderFiles(files) {
   const container = document.getElementById('fileListContainer');
-  const emptyState = document.getElementById('emptyState');
   const countEl = document.getElementById('filesCount');
 
   if (!files || files.length === 0) {
@@ -217,6 +216,7 @@ function uploadFiles(files) {
   xhr.onload = () => {
     container.innerHTML = '';
     if (xhr.status === 201) {
+      fetchFiles();
       showToast('Upload complete!', 'success');
     } else {
       try {
@@ -262,11 +262,11 @@ function initSocket() {
     showToast('A file was deleted', 'info');
   });
 
-  socket.on('user-joined', (data) => {
+  socket.on('user-joined', () => {
     showToast('Someone joined the room', 'info');
   });
 
-  socket.on('user-left', (data) => {
+  socket.on('user-left', () => {
     showToast('Someone left the room', 'info');
   });
 
