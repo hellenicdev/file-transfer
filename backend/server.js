@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || '*',
+    origin: process.env.FRONTEND_URL || 'https://hellenicdev.eu',
     methods: ['GET', 'POST'],
   },
 });
@@ -25,7 +25,7 @@ app.set('trust proxy', 1);
 app.set('io', io);
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: process.env.FRONTEND_URL || 'https://hellenicdev.eu',
 }));
 
 app.use(express.json({ limit: '1mb' }));
@@ -46,7 +46,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
+
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid JSON body' });
+  }
   console.error('Unhandled error:', err.message);
   res.status(500).json({ error: 'Internal server error' });
 });
