@@ -42,8 +42,11 @@ router.post('/join', joinRoomLimiter, verifyTurnstile, async (req, res) => {
     if (!roomId || typeof roomId !== 'string') {
       return res.status(400).json({ error: 'Room ID is required' });
     }
+    if (!/^[A-Fa-f0-9]{6}$/.test(roomId.trim())) {
+      return res.status(400).json({ error: 'Room ID must be 6 characters (0-9, A-F)' });
+    }
 
-    const room = await Room.findOne({ roomId: roomId.toUpperCase() });
+    const room = await Room.findOne({ roomId: roomId.trim().toUpperCase() });
 
     if (!room) {
       return res.status(404).json({ error: 'Room not found or expired' });

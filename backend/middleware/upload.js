@@ -1,8 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 
-const BLOCKED_EXTENSIONS = ['.exe', '.bat', '.cmd', '.com', '.msi', '.scr', '.pif', '.scr'];
-const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE) || 104857600;
+const BLOCKED_EXTENSIONS = ['.exe', '.bat', '.cmd', '.com', '.msi', '.scr', '.pif', '.vbs', '.js', '.jar', '.ps1', '.sh'];
+const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE, 10) || 104857600;
 
 function fileFilter(req, file, cb) {
   const ext = path.extname(file.originalname).toLowerCase();
